@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 const Document = require("./Document")
-
-mongoose.connect("mongodb+srv://tanejavidhata:bEcSgDg39FD2QRlX@cluster0.uqjltqz.mongodb.net/", {
+const dotenv = require('dotenv');
+dotenv.config();
+mongoose.connect(process.env.MONGOOSE_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
 
 const io = require("socket.io")(3001,{
     cors: {
-        origin: "http://localhost:5173",
+        origin: process.env.CLIENT_URI,
         method: ['GET','POST']
     }
 });
