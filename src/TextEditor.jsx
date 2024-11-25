@@ -3,8 +3,8 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { io } from "socket.io-client";
 import { useParams } from "react-router-dom"
-const serviceUrl = import.meta.env.SERVICE_URL
-const SAVE_INTERVAL_MS = 2000;
+const baseURL = import.meta.env.VITE_BASE_URL;
+const SAVE_INTERVAL_MS = 1000;
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
   [{ font: [] }],
@@ -23,7 +23,8 @@ function TextEditor() {
   const [quill, setQuill] = useState(null);
   console.log(documentId);
   useEffect(() => {
-    const s = io(serviceUrl);
+    const s = io(baseURL);
+    console.log("==s==" , s)
     setSocket(s);
 
     return () => {
@@ -35,6 +36,7 @@ function TextEditor() {
     if(socket==null || quill == null ) return 
 
     socket.once("load-document", document =>{
+      console.log("~load doc");
       quill.setContents(document);
       quill.enable()
     })
@@ -92,6 +94,7 @@ function TextEditor() {
     const editor = document.createElement("div");
     wrapper.append(editor);
     const q = new Quill(editor, { theme: "snow", modules: { toolbar: TOOLBAR_OPTIONS } });
+    console.log(q);
     q.disable();
     q.setText('Loading...');
     setQuill(q);

@@ -16,9 +16,10 @@ const io = require("socket.io")(3001,{
 const defaultValue = ""
 
 io.on("connection", socket =>{
-    // console.log("conected");
+    console.log("conected");
     socket.on("get-document", async documentId =>{
         const document = await findOrCreateDocument(documentId)
+        console.log("==doc" , document)
         socket.join(documentId)
         socket.emit("load-document",document.data);
         socket.on("send-changes",delta=>{
@@ -36,7 +37,14 @@ async function findOrCreateDocument(id){
     if(id == null) return
 
     const document = await Document.findById(id)
-    if(document) return document
-    return await Document.create({_id: id , data:defaultValue});
+    // if(document) return document
+    if (document) {
+        console.log("Document found:", document);
+        return document;
+    }
+    const newDocument = await Document.create({ _id: id, data: defaultValue });
+    console.log("New document created:", newDocument);
+    return newDocument;
+
 
 }
