@@ -1,5 +1,5 @@
 import React from "react";
-import TextEditor from "./textEditor";
+import TextEditor from './TextEditor'
 import "./index.css";
 import {
   BrowserRouter as Router,
