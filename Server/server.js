@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGOOSE_URI, {
 
 const io = require("socket.io")(3001,{
     cors: {
-        origin: process.env.CLIENT_URI,
+        origin: '*',
         method: ['GET','POST']
     }
 });
